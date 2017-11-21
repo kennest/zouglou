@@ -7,7 +7,7 @@ import {Http} from "@angular/http";
   templateUrl: 'details.html'
 })
 export class DetailsPage {
-  artist: any;
+  event: any;
   id: number;
 
   constructor(public navCtrl: NavController, private http: Http, private navparams: NavParams, private load: LoadingController) {
@@ -16,7 +16,7 @@ export class DetailsPage {
 
 
   initData() {
-    this.artist = this.navparams.get('artist');
-    console.log(this.artist.events);
+    this.event = this.navparams.get('event');
+    console.log(this.event);
   }
 }

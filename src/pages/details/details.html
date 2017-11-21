@@ -10,46 +10,40 @@
 <ion-content padding>
 
   <ion-card>
-    <img src="{{artist.avatar}}"/>
+    <img src="{{event.picture}}"/>
     <ion-card-content>
       <ion-card-title>
-        {{artist.name}}
+        {{event.title}}
       </ion-card-title>
-      <div *ngFor="let e of artist.events">
-      <h2 style="color: cadetblue;">{{e.title}}</h2>
-      {{e.description}}
-
-        <ion-row>
+      <ion-list>
+          <ion-item *ngFor='let a of event.artists'>
+            <ion-avatar item-start>
+              <img src="{{a.avatar}}">
+            </ion-avatar>
+            <h2>{{a.name}}</h2>
+          </ion-item>
+        </ion-list>
+        <p>{{event.description}}</p>
+         <ion-row>
           <ion-col>
             <button ion-button icon-left clear small>
               <ion-icon name="clock"></ion-icon>
-              <div>{{e.begin}}</div>
+              <div>{{event.begin}}</div>
             </button>
           </ion-col>
           <ion-col>
             <button ion-button icon-left clear small>
               <ion-icon name="timer"></ion-icon>
-              <div>{{e.end}}</div>
+              <div>{{event.end}}</div>
             </button>
           </ion-col>
-          <ion-col center text-center>
-            <ion-note>
-              {{e.created_at}}
-            </ion-note>
-          </ion-col>
         </ion-row>
-    </div>
-      <button ion-button full>
-        Voir Carte
-        <ion-icon name="md-map" icon-left></ion-icon>
-      </button>
     </ion-card-content>
 
 
   </ion-card>
-<button ion-button full>
-  A voir dans la meme commune
-  <ion-icon name="bookmark" icon-left></ion-icon>
+<button ion-button full color="danger">
+  Dans la meme commune de  "{{event.place.address.commune}} {{event.place.address.quartier}}"
 </button>
 </ion-content>
 

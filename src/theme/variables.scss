@@ -22,7 +22,7 @@ $app-direction: ltr;
 // To view all the possible Ionic variables, see:
 // http://ionicframework.com/docs/theming/overriding-ionic-variables/
 
-$toolbar-background:#0D9C20;
+$toolbar-background:rgb(85, 163, 7);
 $card-md-header-color:#0D9C20;
 $menu-md-background:#81D49D;
 // Named Color Variables
@@ -34,11 +34,11 @@ $menu-md-background:#81D49D;
 // The "primary" color is the only required color in the map.
 
 $colors: (
-  primary:    #0D9C20,
-  secondary:  #32db64,
-  danger:     #f53d3d,
+  primary:    rgb(56, 6, 240),
+  secondary:  #5490df,
+  danger:     #e65252,
   light:      #f4f4f4,
-  dark:       #222
+  dark:       rgb(34, 80, 55)
 );
 
 

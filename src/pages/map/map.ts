@@ -1,67 +1,85 @@
-import {Component, ViewChild, ElementRef} from '@angular/core';
-import {Geolocation} from '@ionic-native/geolocation';
+import { Component, ViewChild, ElementRef } from '@angular/core';
+import { AlertController } from 'ionic-angular';
+import { Geolocation } from '@ionic-native/geolocation';
 import {
   GoogleMaps,
   GoogleMap,
   CameraPosition,
   LatLng,
   GoogleMapsEvent,
-  Marker
+  Marker,
+  ILatLng
 } from "@ionic-native/google-maps";
+import { DataProvider } from './../../providers/data/data';
 
-
-declare var google;
-
+declare const google;
+var markers = [];
+var resUrl = 'https://zouglou-rest.herokuapp.com/uploads/';
 @Component({
   selector: 'page-map',
   templateUrl: 'map.html'
 })
 export class MapPage {
   @ViewChild('map') mapElement: ElementRef;
-  map: GoogleMap;
+  map: any;
+  places: any;
 
-  constructor(private _googleMaps: GoogleMaps, private _geolocation: Geolocation) {
-
+  constructor(private _googleMaps: GoogleMaps, private _geolocation: Geolocation, public data: DataProvider, public alert: AlertController) {
+    this.data.getPlaces();
+    this.getPlaces();
+  }
+  ionViewDidLoad() {
+    this.loadMap();
   }
 
-  ionViewDidLoad(){
+  ionViewWillEnter() {
+    this.data.getPlaces();
+  }
 
-    let loc:LatLng;
-    this.initMap();
-
-    this.map.one(GoogleMapsEvent.MAP_READY).then(()=>{
-
-      this.getLocation().then(res=>{
-        loc=new LatLng(res.coords.latitude,res.coords.longitude);
-        this.moveCamera(loc);
-      }).catch(err=>{
-        console.log(err);
-      });
-
+  loadMap() {
+    let abidjan = { lat: 5.3306125, lng: -4.0206121 }
+    this.map = new google.maps.Map(this.mapElement.nativeElement, {
+      zoom: 10,
+      center: abidjan,
+      mapTypeId: 'roadmap'
     });
+    this.addPlaceMarkers();
+    this.map.setCenter(abidjan);
   }
 
-  initMap() {
-    let element = this.mapElement.nativeElement;
-    this.map = this._googleMaps.create(element);
-  }
-
-  getLocation(){
+  getLocation() {
     return this._geolocation.getCurrentPosition();
   }
 
-  moveCamera(loc:LatLng){
-    let cameraPos: CameraPosition<any>={
-    target:loc,
-      zoom:15,
-      tilt:10,
-    };
+  placeMarker(loc: any, title, infos, picture) {
+    var marker = new google.maps.Marker({
+      map: this.map,
+      position: loc,
+      title: title,
+      animation: google.maps.Animation.BOUNCE
+    });
 
-    this.map.moveCamera(cameraPos);
+    var infowindow = new google.maps.InfoWindow({
+      content: "<div><h4>" + title + "</h4><img src=" + picture + " /><p>" + infos + "</p>"
+      +"<button ion-button full color='primary'>Voir details</button>"
+      +"</div>"
+    });
+
+    marker.addListener('click', function () {
+      infowindow.open(this.map, marker);
+    });
   }
 
-  placeMarker(loc:LatLng){
-    let marker:Marker;
-    marker.setPosition(loc);
+  //DATA
+  public getPlaces() {
+    this.places = this.data.places;
+  }
+
+  addPlaceMarkers() {
+    console.log(this.places);
+    for (let key in this.places) {
+      var loc = { lat: Number(this.places[key].address.lat), lng: Number(this.places[key].address.long) };
+      this.placeMarker(loc, this.places[key].title, this.places[key].events[0].description, resUrl + this.places[key].picture)
+    }
   }
 }

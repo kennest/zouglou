@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
-import {LoadingController} from 'ionic-angular';
-import {Http} from "@angular/http";
-import { Observable } from 'rxjs/Observable';
+import { LoadingController } from 'ionic-angular';
+import { Http, Response } from "@angular/http";
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
 /*
@@ -12,19 +14,41 @@ import 'rxjs/add/operator/catch';
 */
 @Injectable()
 export class DataProvider {
-  url:'http://zouglou.herokuapp.com';
-  artists: any;
-  events: any;
-  constructor(public http: Http,private load:LoadingController) {
+  public url: string = 'https://zouglou-rest.herokuapp.com/';
+  public places:any;
+  public events: any;
+
+  constructor(public http: Http, public loader: LoadingController) {
     console.log('Hello DataProvider Provider');
+    this.getPlaces();
   }
 
+  getPlaces() {
+    let loader = this.loader.create({
+      content: 'Chargement des Informations...',
+      duration: 8000
+    });
+    loader.present();
+     return this.http.get(this.url + 'api/places')
+      .map(res=>res.json())
+        .subscribe(data => {
+          this.places=data;
+          loader.dismiss();
+        });
+  }
 
-  public getAllArtists(){
-    this.http.get('http://zouglou.herokuapp.com/consumer/artistsAll').map(res => res.json()).subscribe(data => {
-      this.artists=data;
-      return data;
-      });
+  getactiveEvents() {
+    let loader = this.loader.create({
+      content: 'Chargement des Informations...',
+      duration: 8000
+    });
+    loader.present();
+    return this.http.get(this.url + 'api/activeevents')
+        .subscribe(data => {
+          this.places=data;
+          loader.dismiss();
+        });
+
 
   }
 

@@ -6,8 +6,6 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 import { MapPage } from '../pages/map/map';
-import { AdminPage } from '../pages/admin/admin';
-import { LoginPage } from '../pages/login/login';
 import {DetailsPage} from "../pages/details/details";
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -15,8 +13,9 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { Geolocation } from '@ionic-native/geolocation';
 import {GoogleMaps} from "@ionic-native/google-maps";
 import { HttpModule } from '@angular/http';
-import { AuthServiceProvider } from '../providers/auth-service/auth-service';
+import { IonicStorageModule } from '@ionic/storage';
 import { DataProvider } from '../providers/data/data';
+import{AgmCoreModule} from '@agm/core';
 
 @NgModule({
   declarations: [
@@ -24,14 +23,17 @@ import { DataProvider } from '../providers/data/data';
     HomePage,
     ListPage,
     MapPage,
-    AdminPage,
-    LoginPage,
     DetailsPage
   ],
   imports: [
     BrowserModule,
     HttpModule,
+    IonicStorageModule.forRoot(),
     IonicModule.forRoot(MyApp),
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyDxwYBQWs7Kt0_r9-vTAvZ2ywfaCip4KAM'
+    })
+  ,
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -39,8 +41,6 @@ import { DataProvider } from '../providers/data/data';
     HomePage,
     ListPage,
     MapPage,
-    AdminPage,
-    LoginPage,
     DetailsPage
   ],
   providers: [
@@ -48,9 +48,8 @@ import { DataProvider } from '../providers/data/data';
     SplashScreen,
     Geolocation,
     GoogleMaps,
+    DataProvider,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
-    AuthServiceProvider,
-    DataProvider
   ]
 })
 export class AppModule { }

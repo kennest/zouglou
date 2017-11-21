@@ -1,38 +1,33 @@
-import {Component} from '@angular/core';
-import {NavController} from 'ionic-angular';
-import {DetailsPage} from "../details/details";
-import {Http, Response} from "@angular/http";
-
+import { Component } from '@angular/core';
+import { NavController, LoadingController } from 'ionic-angular';
+import { DetailsPage } from "../details/details";
+import { Http } from "@angular/http";
+import "rxjs/add/operator/map";
+import { DataProvider } from '../../providers/data/data';
 
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
 export class HomePage {
-  artists: any;
+  places:any;
   events: any;
-  url: string = 'http://zouglou.herokuapp.com/consumer/artistsAll';
+  url:string='https://zouglou-rest.herokuapp.com/';
 
-  constructor(public navCtrl: NavController, public http: Http) {
-    this.getArtists();
+  constructor(public navCtrl: NavController, public http: Http, public loader: LoadingController, public data: DataProvider) {
+    this.data.getPlaces();
+    this.getPlaces();
   }
 
-  getArtists() {
-    return new Promise(resolve => {
-      this.http.get(this.url)
-        .map(results => results.json())
-        .subscribe(data => {
-          this.artists = data;
-          resolve(this.artists);
-          console.log(this.artists);
-        });
-    });
+
+  getPlaces() {
+      this.places = this.data.places;
   }
 
-  showDetails(artist) {
-    console.log(artist);
+  showDetails(event) {
+    console.log(event);
     try {
-      this.navCtrl.push(DetailsPage, {'artist': artist});
+      this.navCtrl.push(DetailsPage, { 'event': event });
     } catch (e) {
       console.log(e);
     }

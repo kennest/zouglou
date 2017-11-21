@@ -3,20 +3,26 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Les Evenements du moment...</ion-title>
+    <ion-title>Les Evenements en cours...</ion-title>
   </ion-navbar>
 </ion-header>
 <ion-content padding>
   <ion-list>
-    <ion-item *ngFor="let artist of artists">
+    <ion-item *ngFor="let place of places">
       <ion-thumbnail item-start>
-        <img src="{{artist.avatar}}">
+        <img src="{{url+'uploads/'+place.picture}}" />
       </ion-thumbnail>
-      <h2>{{artist.name}}</h2>
-      <p *ngFor="let e of artist.events">
-        <span style="color: cadetblue;">{{e.title}}</span>
-      </p>
-      <button ion-button clear item-end (click)="showDetails(artist)">Voir</button>
+      <h2>{{place.title}}</h2>
+      <div *ngFor="let e of place.events">
+        <p>
+          <span style="color: cadetblue;">{{e.title}}</span>
+        </p>
+        <p>
+            <ion-badge item-end color="danger">{{e.end}}</ion-badge>
+        </p>
+        <button ion-button item-end (click)="showDetails(e)">Voir</button>
+      </div>
+     
     </ion-item>
   </ion-list>
 </ion-content>
