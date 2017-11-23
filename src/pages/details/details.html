@@ -7,43 +7,51 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
 
   <ion-card>
-    <img src="{{event.picture}}"/>
+    <img src="{{resUrl+event.picture}}" />
     <ion-card-content>
       <ion-card-title>
         {{event.title}}
       </ion-card-title>
       <ion-list>
-          <ion-item *ngFor='let a of event.artists'>
-            <ion-avatar item-start>
-              <img src="{{a.avatar}}">
-            </ion-avatar>
-            <h2>{{a.name}}</h2>
-          </ion-item>
-        </ion-list>
-        <p>{{event.description}}</p>
-         <ion-row>
-          <ion-col>
-            <button ion-button icon-left clear small>
-              <ion-icon name="clock"></ion-icon>
-              <div>{{event.begin}}</div>
-            </button>
-          </ion-col>
-          <ion-col>
-            <button ion-button icon-left clear small>
-              <ion-icon name="timer"></ion-icon>
-              <div>{{event.end}}</div>
-            </button>
-          </ion-col>
-        </ion-row>
+        <ion-item *ngFor='let a of event.artists'>
+          <ion-avatar item-start>
+            <img src="{{resUrl+a.avatar}}">
+          </ion-avatar>
+          <h2>{{a.name}}</h2>
+          <button ion-button (click)="streamAudio(resUrl+a.sample)">
+              <ion-icon name="md-play"></ion-icon>
+          </button>
+          <button ion-button (click)="stopStream()">
+              <ion-icon name="md-pause"></ion-icon>
+          </button>
+        </ion-item>
+      </ion-list>
+      <p id="description">{{event.description}}</p>
+      <ion-row>
+        <ion-col>
+          <button ion-button icon-left clear small>
+            <ion-icon name="clock"></ion-icon>
+            <div>{{event.begin| date:'dd-MM-yyyy'}}</div>
+          </button>
+        </ion-col>
+        <ion-col>
+          <button ion-button icon-left clear small>
+            <ion-icon name="timer"></ion-icon>
+            <div>{{event.end| date:'dd-MM-yyyy'}}</div>
+          </button>
+        </ion-col>
+      </ion-row>
     </ion-card-content>
 
 
   </ion-card>
-<button ion-button full color="danger">
-  Dans la meme commune de  "{{event.place.address.commune}} {{event.place.address.quartier}}"
-</button>
+  <ion-list>
+    <ion-item-divider color="primary">
+      Dans la meme commune de "{{event.place.address.commune}} {{event.place.address.quartier}}"
+    </ion-item-divider>
+  </ion-list>
+  <button ion-button navPop full>Retour</button>
 </ion-content>
-

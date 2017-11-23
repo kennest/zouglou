@@ -1,3 +1,4 @@
+
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
@@ -7,15 +8,14 @@ import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 import { MapPage } from '../pages/map/map';
 import {DetailsPage} from "../pages/details/details";
+import { SplashPage } from './../pages/splash/splash';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Geolocation } from '@ionic-native/geolocation';
-import {GoogleMaps} from "@ionic-native/google-maps";
 import { HttpModule } from '@angular/http';
-import { IonicStorageModule } from '@ionic/storage';
 import { DataProvider } from '../providers/data/data';
-import{AgmCoreModule} from '@agm/core';
+import { StreamingMedia } from '@ionic-native/streaming-media';
 
 @NgModule({
   declarations: [
@@ -23,17 +23,13 @@ import{AgmCoreModule} from '@agm/core';
     HomePage,
     ListPage,
     MapPage,
-    DetailsPage
+    DetailsPage,
+    SplashPage
   ],
   imports: [
     BrowserModule,
     HttpModule,
-    IonicStorageModule.forRoot(),
     IonicModule.forRoot(MyApp),
-    AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyDxwYBQWs7Kt0_r9-vTAvZ2ywfaCip4KAM'
-    })
-  ,
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -41,15 +37,16 @@ import{AgmCoreModule} from '@agm/core';
     HomePage,
     ListPage,
     MapPage,
-    DetailsPage
+    DetailsPage,
+    SplashPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     Geolocation,
-    GoogleMaps,
-    DataProvider,
+    StreamingMedia,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
+    DataProvider,
   ]
 })
 export class AppModule { }

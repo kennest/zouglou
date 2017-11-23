@@ -5,13 +5,6 @@
 // roboto, and noto sans fonts
 $font-path: "../assets/fonts";
 
-
-// The app direction is used to include
-// rtl styles in your app. For more info, please see:
-// http://ionicframework.com/docs/theming/rtl-support/
-$app-direction: ltr;
-
-
 @import "ionic.globals";
 
 
@@ -21,10 +14,10 @@ $app-direction: ltr;
 // the Sass variables found in Ionic's source scss files.
 // To view all the possible Ionic variables, see:
 // http://ionicframework.com/docs/theming/overriding-ionic-variables/
+$toolbar-ios-background: #55acee;
+$toolbar-md-background: #55acee;
+$toolbar-wp-background: #55acee;
 
-$toolbar-background:rgb(85, 163, 7);
-$card-md-header-color:#0D9C20;
-$menu-md-background:#81D49D;
 // Named Color Variables
 // --------------------------------------------------
 // Named colors makes it easy to reuse colors on various components.
@@ -34,11 +27,21 @@ $menu-md-background:#81D49D;
 // The "primary" color is the only required color in the map.
 
 $colors: (
-  primary:    rgb(56, 6, 240),
-  secondary:  #5490df,
-  danger:     #e65252,
+  primary:    #387ef5,
+  secondary:  #40ad5f,
+  danger:     #ce4f4f,
   light:      #f4f4f4,
-  dark:       rgb(34, 80, 55)
+  dark:       rgb(116, 15, 116),
+  vibrant:    rebeccapurple,
+  bright:     #ffc125,
+  greyYellow: (
+    base:#49606e,
+    contrast:#fbb636
+  ),
+  greyWhite: (
+    base:#49606e,
+    contrast:#fff
+  )
 );
 
 
@@ -48,18 +51,14 @@ $colors: (
 
 
 
-
 // App Material Design Variables
 // --------------------------------------------------
 // Material Design only Sass variables can go here
 
 
-
-
 // App Windows Variables
 // --------------------------------------------------
 // Windows only Sass variables can go here
-
 
 
 
@@ -83,6 +82,8 @@ $colors: (
 
 // Fonts
 // --------------------------------------------------
+// Roboto font is used by default for Material Design. Noto sans
+// is used by default for Windows.
 
 @import "roboto";
 @import "noto-sans";

@@ -10,24 +10,35 @@ import { DataProvider } from '../../providers/data/data';
   templateUrl: 'home.html'
 })
 export class HomePage {
-  places:any;
+  places: any;
   events: any;
-  url:string='https://zouglou-rest.herokuapp.com/';
+  inactiveevents:any;
+  url: string = 'https://zouglou-rest.herokuapp.com/';
 
   constructor(public navCtrl: NavController, public http: Http, public loader: LoadingController, public data: DataProvider) {
-    this.data.getPlaces();
-    this.getPlaces();
+   
   }
 
+  ionViewDidLoad(){
+    this.data.getactiveEvents();
+    this.data.getInactiveEvents();
+    this.getActiveEvents();
+    this.getInactiveEvents();
+  }
+  getActiveEvents() {
+    this.events = this.data.events;
+    console.log('active:', this.events);
+  }
 
-  getPlaces() {
-      this.places = this.data.places;
+  getInactiveEvents(){
+    this.inactiveevents=this.data.inactiveevents;
+    console.log('inactive:', this.inactiveevents);
   }
 
   showDetails(event) {
     console.log(event);
     try {
-      this.navCtrl.push(DetailsPage, { 'event': event });
+      this.navCtrl.push(DetailsPage, { 'event': event,'query':event.place.address.commune});
     } catch (e) {
       console.log(e);
     }

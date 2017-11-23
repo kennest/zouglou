@@ -15,12 +15,12 @@ import 'rxjs/add/operator/catch';
 @Injectable()
 export class DataProvider {
   public url: string = 'https://zouglou-rest.herokuapp.com/';
-  public places:any;
+  public places: any;
   public events: any;
-
+  public inactiveevents:any;
+  public similar: any;
   constructor(public http: Http, public loader: LoadingController) {
     console.log('Hello DataProvider Provider');
-    this.getPlaces();
   }
 
   getPlaces() {
@@ -29,12 +29,12 @@ export class DataProvider {
       duration: 8000
     });
     loader.present();
-     return this.http.get(this.url + 'api/places')
-      .map(res=>res.json())
-        .subscribe(data => {
-          this.places=data;
-          loader.dismiss();
-        });
+    return this.http.get(this.url + 'api/places')
+      .map(res => res.json())
+      .subscribe(data => {
+        this.places = data;
+        loader.dismiss();
+      });
   }
 
   getactiveEvents() {
@@ -44,12 +44,56 @@ export class DataProvider {
     });
     loader.present();
     return this.http.get(this.url + 'api/activeevents')
-        .subscribe(data => {
-          this.places=data;
-          loader.dismiss();
-        });
+      .map(res => res.json())
+      .subscribe(data => {
+        this.events = data;
+        console.log('active:', data);
+        loader.dismiss();
+      });
+  }
 
+  getInactiveEvents() {
+    let loader = this.loader.create({
+      content: 'Chargement des Informations...',
+      duration: 8000
+    });
+    loader.present();
+    return this.http.get(this.url + 'api/inactiveevents')
+      .map(res => res.json())
+      .subscribe(data => {
+        this.inactiveevents = data;
+        console.log('active:', data);
+        loader.dismiss();
+      });
+  }
 
+  getSimilarEvents(query: string) {
+    let loader = this.loader.create({
+      content: 'Chargement des Informations...',
+      duration: 8000
+    });
+    loader.present();
+    return this.http.get(this.url + 'api/similar/' + query)
+      .map(res => res.json())
+      .subscribe(data => {
+        this.similar = data;
+        console.log('Similar:', this.similar);
+        loader.dismiss();
+      });
+  }
+
+  getArtists() {
+    let loader = this.loader.create({
+      content: 'Chargement des Informations...',
+      duration: 8000
+    });
+    loader.present();
+    return this.http.get(this.url + 'api/allartists')
+      .map(res => res.json())
+      .subscribe(data => {
+        this.places = data;
+        loader.dismiss();
+      });
   }
 
 }

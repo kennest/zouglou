@@ -3,26 +3,34 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Les Evenements en cours...</ion-title>
+    <ion-title>Les Evenements</ion-title>
   </ion-navbar>
 </ion-header>
-<ion-content padding>
+<ion-content>
   <ion-list>
-    <ion-item *ngFor="let place of places">
-      <ion-thumbnail item-start>
-        <img src="{{url+'uploads/'+place.picture}}" />
-      </ion-thumbnail>
-      <h2>{{place.title}}</h2>
-      <div *ngFor="let e of place.events">
-        <p>
-          <span style="color: cadetblue;">{{e.title}}</span>
-        </p>
-        <p>
-            <ion-badge item-end color="danger">{{e.end}}</ion-badge>
-        </p>
-        <button ion-button item-end (click)="showDetails(e)">Voir</button>
-      </div>
-     
-    </ion-item>
+      <ion-item-divider color="primary">Présents</ion-item-divider>
+      <ion-item *ngFor="let e of events" >
+          <ion-thumbnail item-start>
+            <img src="{{url+'/uploads/'+e.picture}}">
+          </ion-thumbnail>
+          <ion-badge color="dark"><h3>{{e.title|uppercase}}</h3></ion-badge>
+          <div *ngFor="let a of e.artists">
+            <p>{{a.name}}</p>
+          </div>
+          <p><ion-badge color="secondary">{{e.place.title|uppercase}}</ion-badge></p>
+          <button ion-button item-end (click)="showDetails(e)">View</button>
+        </ion-item>
+        <ion-item-divider color="danger">Passés</ion-item-divider>
+        <ion-item *ngFor="let e of inactiveevents" >
+            <ion-thumbnail item-start>
+              <img src="{{url+'/uploads/'+e.picture}}">
+            </ion-thumbnail>
+            <ion-badge color="dark"><h3>{{e.title|uppercase}}</h3></ion-badge>
+            <div *ngFor="let a of e.artists">
+              <p>{{a.name}}</p>
+            </div>
+            <p><ion-badge color="secondary">{{e.place.title|uppercase}}</ion-badge></p>
+            <button ion-button item-end (click)="showDetails(e)">View</button>
+          </ion-item>
   </ion-list>
 </ion-content>

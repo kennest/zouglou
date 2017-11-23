@@ -7,6 +7,7 @@ import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 import { MapPage } from '../pages/map/map';
 import {DetailsPage} from "../pages/details/details";
+import { SplashPage } from './../pages/splash/splash';
 
 @Component({
   templateUrl: 'app.html'
@@ -23,8 +24,8 @@ export class MyApp {
 
     // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'Accueil', component: HomePage },
-      { title: 'Liste des Evenements', component: ListPage },
+      { title: 'Liste des Evenements', component: HomePage },
+      { title: 'Liste des artistes', component: ListPage },
       { title: 'Voir sur Google Maps', component: MapPage }
     ];
 
