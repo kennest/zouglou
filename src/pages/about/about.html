@@ -8,21 +8,28 @@
 </ion-header>
 <ion-content>
   <ion-card>
-    <img src="assets/imgs/logo.png" />
+    <img src="assets/imgs/logo.png" height="450"/>
     <ion-card-content>
-      <ion-card-title>
-        Zouglou Maps
+      <ion-card-title text-center>
+        <ion-badge color="secondary">Zouglou Maps 1.0</ion-badge>
       </ion-card-title>
-     <p>IPWAV est une entreprise de promotion des TICs, spécialisée dans l’intégration des 
-       solutions de communication. Nos champs d’action couvre le développement d'Application,
-        les services à valeur ajoutée du Mobile, et l’interconnexion de sites distants via 
-        internet ou un réseau privé.
-      
-      Notre ambition est de permettre à toute organisation professionnelle, institutionnelle,
-       gouvernementale, ou associative de profiter pleinement des énormes avantages qu’offrent 
-       les nouvelles technologies de communication; le socle du succès de toute organisation.</p>
+     <ion-list>
+        <ion-item>
+            <button ion-item (click)="buttonClick()">
+                <ion-icon name="logo-facebook"></ion-icon>
+              Aimez-nous sur Facebook
+            </button>
+          </ion-item>
+          <ion-item>
+              <ion-thumbnail item-start>
+                <img src="assets/imgs/ipwav.png">
+              </ion-thumbnail>
+              Developpé par <ion-badge color="primary">@IPWAV</ion-badge>
+              <button ion-button outline item-end>
+                  <ion-icon name="md-home"></ion-icon>
+              </button>
+            </ion-item>
+     </ion-list>
     </ion-card-content>
-
-
   </ion-card>
 </ion-content>

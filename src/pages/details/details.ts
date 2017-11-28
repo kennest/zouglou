@@ -12,18 +12,25 @@ export class DetailsPage {
 
   event: any;
   id: number;
-  similar: any;
+  public similar: any;
+  public similarevents:any;
   resUrl: string = 'https://zouglou-rest.herokuapp.com/uploads/';
   constructor(public navCtrl: NavController, private data: DataProvider, private navparams: NavParams, private load: LoadingController, private stream: StreamingMedia) {
+    this.init();
+  }
+
+  init() {
     this.event = this.navparams.get('event');
-    this.data.getSimilarEvents(this.event.place.address.commune);
-    this.similar = this.data.similar;
+    this.data.getSimilarEvents(this.event.place.address.commune)
+      .then(data => {
+        this.similar = data;
+        console.log("similar", this.similar[0].events);
+      });
   }
 
   ionViewDidLoad() {
     this.event = this.navparams.get('event');
-    this.data.getSimilarEvents(this.event.place.address.commune);
-    this.similar = this.data.similar;
+    this.init();
     console.log('Details log:', this.event);
   }
   showDetails(event) {
@@ -38,7 +45,7 @@ export class DetailsPage {
     let options: StreamingAudioOptions = {
       successCallback: () => { console.log('Video played') },
       errorCallback: (e) => { console.log('Error streaming') },
-      initFullscreen:false,
+      initFullscreen: false,
     };
     this.stream.playAudio(url, options);
   }

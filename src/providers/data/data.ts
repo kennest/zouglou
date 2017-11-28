@@ -30,7 +30,8 @@ export class DataProvider {
   getPlaces() {
     let loader = this.loader.create({
       content: 'Chargement des Informations...',
-      duration: 8000
+      duration: 8000,
+      spinner:"dots"
     });
     loader.present();
     return new Promise(resolve => {
@@ -47,7 +48,8 @@ export class DataProvider {
   getactiveEvents() {
     let loader = this.loader.create({
       content: 'Chargement des Informations...',
-      duration: 8000
+      duration: 8000,
+      spinner:"dots"
     });
     loader.present();
     return new Promise(resolve => {
@@ -64,7 +66,8 @@ export class DataProvider {
   getInactiveEvents() {
     let loader = this.loader.create({
       content: 'Chargement des Informations...',
-      duration: 8000
+      duration: 8000,
+      spinner:"dots"
     });
     loader.present();
     return new Promise(resolve => {
@@ -81,7 +84,8 @@ export class DataProvider {
   getSimilarEvents(query: string) {
     let loader = this.loader.create({
       content: 'Chargement des Informations...',
-      duration: 8000
+      duration: 8000,
+      spinner:"dots"
     });
     loader.present();
     return new Promise(resolve => {
@@ -98,7 +102,8 @@ export class DataProvider {
   getArtists() {
     let loader = this.loader.create({
       content: 'Chargement des Informations...',
-      duration: 8000
+      duration: 8000,
+      spinner:"dots"
     });
     loader.present();
     return new Promise(resolve => {
@@ -115,7 +120,8 @@ export class DataProvider {
   getArtist(id) {
     let loader = this.loader.create({
       content: 'Chargement des Informations...',
-      duration: 8000
+      duration: 8000,
+      spinner:"dots"
     });
     loader.present();
     return new Promise(resolve => {
@@ -132,7 +138,8 @@ export class DataProvider {
   getEvent(id) {
     let loader = this.loader.create({
       content: 'Chargement des Informations...',
-      duration: 8000
+      duration: 8000,
+      spinner:"dots"
     });
     loader.present();
     return new Promise(resolve => {
@@ -149,7 +156,8 @@ export class DataProvider {
   getPlace(id) {
     let loader = this.loader.create({
       content: 'Chargement des Informations...',
-      duration: 8000
+      duration: 8000,
+      spinner:"dots"
     });
     loader.present();
     return new Promise(resolve => {

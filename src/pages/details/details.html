@@ -11,12 +11,19 @@
 
   <ion-card>
     <ion-item>
-      <ion-avatar item-start>
+      <ion-thumbnail item-start>
         <img src="{{resUrl+event.picture}}" />
-      </ion-avatar>
+      </ion-thumbnail>
       <h2>{{event.title}}</h2>
-      <p>à {{event.place.title}}</p>
-      <p>Du {{event.begin| date:'longDate':'':'fr'}} Au {{event.end| date:'longDate':'':'fr'}}</p>
+      <p>à 
+        {{event.place.title}}
+        <ion-badge color="dark">{{event.place.address.commune}}</ion-badge>
+      </p>
+      <p>Du 
+        <strong>{{event.begin| date:'longDate':'':'fr'}} </strong>
+        Au 
+        <strong>{{event.end| date:'longDate':'':'fr'}}</strong>
+      </p>
     </ion-item>
 
     <img src="{{resUrl+event.place.picture}}" />
@@ -28,9 +35,9 @@
           </strong>
         </p>
         <ion-item *ngFor='let a of event.artists'>
-          <ion-avatar item-start>
+          <ion-thumbnail item-start>
             <img src="{{resUrl+a.avatar}}">
-          </ion-avatar>
+          </ion-thumbnail>
           <h2>{{a.name}}</h2>
           <button ion-button (click)="streamAudio(resUrl+a.sample)">
             <ion-icon name="md-play"></ion-icon>
@@ -52,10 +59,26 @@
     </ion-row>
 
   </ion-card>
-  <ion-list>
-    <ion-item-divider color="primary">
-      Dans la meme commune de "{{event.place.address.commune}} {{event.place.address.quartier}}"
+  <ion-list *ngIf="similar">
+    <ion-item-divider color="dark">
+      <strong>
+        <h2>
+            A voir aussi à "{{event.place.address.commune}}"
+        </h2>
+      </strong>
     </ion-item-divider>
+    <ion-item  *ngFor="let e of similar[0].events" >
+        <ion-thumbnail item-start>
+          <img src="{{url+'/uploads/'+e.picture}}">
+        </ion-thumbnail>
+        <ion-badge color="dark"><h3>{{e.title|uppercase}}</h3></ion-badge>
+        <p><strong>Artistes invités:</strong></p>
+        <div *ngFor="let a of e.artists">
+          <p>{{a.name}}</p>
+        </div>
+        <p><strong>Lieu:</strong><ion-badge color="secondary">{{e.place.title|uppercase}}</ion-badge> à <strong>{{e.place.address.commune|uppercase}}</strong></p>
+        <button ion-button item-end (click)="showDetails(e)">Voir+</button>
+      </ion-item>
   </ion-list>
   <button ion-button navPop full>Retour</button>
 </ion-content>
