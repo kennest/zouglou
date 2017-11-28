@@ -1,13 +1,14 @@
+import { AboutPage } from './../pages/about/about';
 import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
 import { MapPage } from '../pages/map/map';
 import {DetailsPage} from "../pages/details/details";
-import { SplashPage } from './../pages/splash/splash';
+import { SplashPage } from '../pages/splash/splash';
+import { artistListPage } from '../pages/artistList/artistList';
 
 @Component({
   templateUrl: 'app.html'
@@ -25,8 +26,9 @@ export class MyApp {
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Liste des Evenements', component: HomePage },
-      { title: 'Liste des artistes', component: ListPage },
-      { title: 'Voir sur Google Maps', component: MapPage }
+      { title: 'Liste des Artistes', component: artistListPage },
+      { title: 'Voir sur Google Maps', component: MapPage },
+      { title: 'A-propos', component: AboutPage }
     ];
 
   }

@@ -12,6 +12,7 @@ var initialize;
 var calculate;
 var direction;
 var mypos;
+var places;
 @Component({
   selector: 'page-map',
   templateUrl: 'map.html'
@@ -19,18 +20,20 @@ var mypos;
 export class MapPage {
   @ViewChild('map') mapElement: ElementRef;
   map: any;
-  places: any;
+  public places: any;
   constructor(public platform: Platform, public navCtrl: NavController, private _geolocation: Geolocation, public data: DataProvider, public alert: AlertController) {
-    this.data.getPlaces();
-    this.getPlaces();
-    this.platform.ready().then(() => {
+    this.data.getPlaces()
+      .then(data => {
+        places = data;
+      });
+      this.platform.ready().then(() => {
       this.locateMe();
     });
   }
-  ionViewDidLoad() {
-    this.loadMap();
+  ionViewDidLoad(){
+   this.loadMap();
   }
-
+  
   loadMap() {
     let abidjan = { lat: 5.3306125, lng: -4.0206121 }
     this.map = new google.maps.Map(this.mapElement.nativeElement, {
@@ -38,13 +41,21 @@ export class MapPage {
       center: abidjan,
       mapTypeId: 'roadmap'
     });
-
     this.addPlaceMarkers();
     this.map.setCenter(abidjan);
   }
 
+  addPlaceMarkers() {
+    for (let key in places) {
+     var coord={
+       lat:Number(places[key].address.lat),
+       lng:Number(places[key].address.long)
+      };
+     this.placeMarker(coord, places[key]);
+    }
+  }
+
   placeMarker(loc: any, places) {
-    alert("placeMarker:"+mypos);
     var marker = new google.maps.Marker({
       map: this.map,
       position: loc,
@@ -58,15 +69,15 @@ export class MapPage {
         + "</div>"
     });
 
-    marker.addListener('click', function () {
+    marker.addListener('dblclick', function () {
       infowindow.open(this.map, marker);
     });
 
-    marker.addListener('dblclick', function () {
+    marker.addListener('click', function () {
       calculate(mypos, marker.getPosition());
     });
 
-  
+
     direction = new google.maps.DirectionsRenderer({
       map: this.map,
       panel: panel
@@ -92,17 +103,8 @@ export class MapPage {
   }
 
   //DATA
-  public getPlaces() {
-    this.places = this.data.places;
-  }
 
-  addPlaceMarkers() {
-    console.log(this.places);
-    for (let key in this.places) {
-      var loc = { lat: Number(this.places[key].address.lat), lng: Number(this.places[key].address.long) };
-      this.placeMarker(loc, this.places[key])
-    }
-  }
+
 
   showDetails(event): void {
     console.log(event);
@@ -117,7 +119,6 @@ export class MapPage {
     this._geolocation.getCurrentPosition().then((position) => {
       let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
       mypos = latLng;
-      alert("locate me:"+mypos);
       var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
       var marker = new google.maps.Marker({
         map: this.map,

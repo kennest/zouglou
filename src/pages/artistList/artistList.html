@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Tous vos artistes Zouglou</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+    <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
+  <ion-card *ngIf="artist">
+      <ion-avatar item-start>
+    <img src="{{resUrl+artist.avatar}}"/>
+    </ion-avatar>
+    <ion-card-content>
+      <ion-card-title>
+        {{artist.name}}
+      </ion-card-title>
+      <p>
+          A participer aux évènements suivants:
+      </p>
+      <p *ngFor="let e of artist.events">
+        <ion-badge>{{e.title}}</ion-badge>
+      </p>
+    </ion-card-content>
+  </ion-card>
+  <ion-list>
+    <button ion-item *ngFor="let a of artists" (click)="show($event,a)">
+      {{a.name}}
+    </button>
+  </ion-list>
+</ion-content>

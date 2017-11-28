@@ -8,7 +8,7 @@
 </ion-header>
 <ion-content>
   <ion-list>
-      <ion-item-divider color="primary">Présents</ion-item-divider>
+      <ion-item-divider color="primary">D'actualité</ion-item-divider>
       <ion-item *ngFor="let e of events" >
           <ion-thumbnail item-start>
             <img src="{{url+'/uploads/'+e.picture}}">
@@ -20,7 +20,7 @@
           <p><ion-badge color="secondary">{{e.place.title|uppercase}}</ion-badge></p>
           <button ion-button item-end (click)="showDetails(e)">View</button>
         </ion-item>
-        <ion-item-divider color="danger">Passés</ion-item-divider>
+        <ion-item-divider color="danger">Dépassés</ion-item-divider>
         <ion-item *ngFor="let e of inactiveevents" >
             <ion-thumbnail item-start>
               <img src="{{url+'/uploads/'+e.picture}}">
@@ -30,7 +30,7 @@
               <p>{{a.name}}</p>
             </div>
             <p><ion-badge color="secondary">{{e.place.title|uppercase}}</ion-badge></p>
-            <button ion-button item-end (click)="showDetails(e)">View</button>
+            <button ion-button item-end (click)="showDetails(e)">Voir+</button>
           </ion-item>
   </ion-list>
 </ion-content>
