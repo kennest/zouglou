@@ -7,6 +7,7 @@
   </ion-navbar>
 </ion-header>
 <ion-content>
+    <ion-searchbar (ionInput)="getItems($event)" placeholder="commune,titre évènement,quartier,maquis..."></ion-searchbar>
   <ion-list>
       <ion-item-divider color="primary">D'actualité</ion-item-divider>
       <ion-item *ngFor="let e of events" >
@@ -17,8 +18,8 @@
           <div *ngFor="let a of e.artists">
             <p>{{a.name}}</p>
           </div>
-          <p><ion-badge color="secondary">{{e.place.title|uppercase}}</ion-badge></p>
-          <button ion-button item-end (click)="showDetails(e)">View</button>
+          <p><ion-badge color="secondary">{{e.place.title|uppercase}}</ion-badge> à <strong>{{e.place.address.commune|uppercase}}</strong></p>
+          <button ion-button item-end (click)="showDetails(e)">Voir+</button>
         </ion-item>
         <ion-item-divider color="danger">Dépassés</ion-item-divider>
         <ion-item *ngFor="let e of inactiveevents" >
@@ -29,7 +30,7 @@
             <div *ngFor="let a of e.artists">
               <p>{{a.name}}</p>
             </div>
-            <p><ion-badge color="secondary">{{e.place.title|uppercase}}</ion-badge></p>
+            <p><ion-badge color="secondary">{{e.place.title|uppercase}}</ion-badge>  à <strong>{{e.place.address.commune|uppercase}}</strong></p>
             <button ion-button item-end (click)="showDetails(e)">Voir+</button>
           </ion-item>
   </ion-list>
