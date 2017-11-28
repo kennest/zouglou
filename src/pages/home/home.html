@@ -3,30 +3,34 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Les Evenements</ion-title>
+    <ion-searchbar (ionInput)="getItems($event)" placeholder="commune,titre évènement,quartier,maquis..."></ion-searchbar>
   </ion-navbar>
 </ion-header>
 <ion-content>
-    <ion-searchbar (ionInput)="getItems($event)" placeholder="commune,titre évènement,quartier,maquis..."></ion-searchbar>
+    <ion-item-divider color="primary">
+        <strong>Liste des Evenements</strong>
+      </ion-item-divider>
   <ion-list>
-      <ion-item-divider color="primary">D'actualité</ion-item-divider>
+      <ion-item-divider color="primary">En cours...</ion-item-divider>
       <ion-item *ngFor="let e of events" >
           <ion-thumbnail item-start>
             <img src="{{url+'/uploads/'+e.picture}}">
           </ion-thumbnail>
           <ion-badge color="dark"><h3>{{e.title|uppercase}}</h3></ion-badge>
+          <p><strong>Artistes invités:</strong></p>
           <div *ngFor="let a of e.artists">
             <p>{{a.name}}</p>
           </div>
           <p><ion-badge color="secondary">{{e.place.title|uppercase}}</ion-badge> à <strong>{{e.place.address.commune|uppercase}}</strong></p>
           <button ion-button item-end (click)="showDetails(e)">Voir+</button>
         </ion-item>
-        <ion-item-divider color="danger">Dépassés</ion-item-divider>
+        <ion-item-divider color="danger">Historique</ion-item-divider>
         <ion-item *ngFor="let e of inactiveevents" >
             <ion-thumbnail item-start>
               <img src="{{url+'/uploads/'+e.picture}}">
             </ion-thumbnail>
             <ion-badge color="dark"><h3>{{e.title|uppercase}}</h3></ion-badge>
+            <p><strong>Artistes invités:</strong></p>
             <div *ngFor="let a of e.artists">
               <p>{{a.name}}</p>
             </div>

@@ -3,11 +3,13 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Tous vos artistes Zouglou</ion-title>
+    <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
   </ion-navbar>
 </ion-header>
 <ion-content>
-    <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
+    <ion-item-divider color="primary">
+        <strong>Liste des Artistes</strong>
+      </ion-item-divider>
   <ion-card *ngIf="artist">
       <ion-avatar item-start>
     <img src="{{resUrl+artist.avatar}}"/>

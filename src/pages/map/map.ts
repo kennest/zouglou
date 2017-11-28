@@ -69,7 +69,7 @@ export class MapPage {
         + "</div>"
     });
 
-    marker.addListener('dblclick', function () {
+    marker.addListener('click', function () {
       infowindow.open(this.map, marker);
     });
 

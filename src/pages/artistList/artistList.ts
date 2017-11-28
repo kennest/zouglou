@@ -37,6 +37,8 @@ export class artistListPage {
       this.artists = this.artists.filter((item) => {
         return (item.name.toLowerCase().indexOf(val.toLowerCase()) > -1);
       });
+    }else{
+      this.init();
     }
   }
 }

@@ -7,7 +7,7 @@ import { DataProvider } from '../../providers/data/data';
 
 @Component({
   selector: 'page-home',
-  templateUrl: 'home.html'
+  templateUrl: 'home.html',
 })
 export class HomePage {
   places: any;

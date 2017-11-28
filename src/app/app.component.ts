@@ -27,7 +27,7 @@ export class MyApp {
     this.pages = [
       { title: 'Liste des Evenements', component: HomePage },
       { title: 'Liste des Artistes', component: artistListPage },
-      { title: 'Voir sur Google Maps', component: MapPage },
+      { title: 'Zouglou Maps', component: MapPage },
       { title: 'A-propos', component: AboutPage }
     ];
 
