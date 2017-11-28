@@ -3,10 +3,13 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Map</ion-title>
+    <ion-searchbar (ionInput)="filterEvent()" placeholder="Nom de l'artiste, Maquis, Commune..." animated="true"></ion-searchbar>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
+    <ion-item-divider color="primary">
+        <strong><h1>Zouglou Maps</h1></strong>
+      </ion-item-divider>
   <div #map id="map"></div>
 </ion-content>

@@ -10,6 +10,7 @@ import { DataProvider } from '../../providers/data/data';
   templateUrl: 'home.html',
 })
 export class HomePage {
+  
   places: any;
   events: any;
   inactiveevents: any;
@@ -27,6 +28,7 @@ export class HomePage {
     this.data.getactiveEvents()
       .then(data => {
         this.events = data;
+        console.log("events", this.events);
       });
 
     this.data.getInactiveEvents()
@@ -43,7 +45,7 @@ export class HomePage {
       console.log(e);
     }
   }
-  getItems(ev: any) {
+  filterItems(ev: any) {
     // Reset items back to all of the items
     // set val to the value of the searchbar
     let val = ev.target.value;
@@ -53,23 +55,32 @@ export class HomePage {
 
       //Filtre événements d'actualités
       this.events = this.events.filter((item) => {
+        var i=0;
         if (item.title.toLowerCase().indexOf(val.toLowerCase()) > -1 ||
           item.place.title.toLowerCase().indexOf(val.toLowerCase()) > -1||
           item.place.address.commune.toLowerCase().indexOf(val.toLowerCase()) > -1 ||
-          item.place.address.quartier.toLowerCase().indexOf(val.toLowerCase()) > -1){
+          item.place.address.quartier.toLowerCase().indexOf(val.toLowerCase()) > -1 ||
+          item.artists[i].name.toLowerCase().indexOf(val.toLowerCase()) > -1){
+            i=+1;
           return true
+          
         }
+        i=+1;
         return false
       });
 
       //Filtre evenements depassés
       this.inactiveevents = this.inactiveevents.filter((item) => {
+        var i=0;
         if (item.title.toLowerCase().indexOf(val.toLowerCase()) > -1 ||
           item.place.title.toLowerCase().indexOf(val.toLowerCase()) > -1||
           item.place.address.commune.toLowerCase().indexOf(val.toLowerCase()) > -1 ||
-          item.place.address.quartier.toLowerCase().indexOf(val.toLowerCase()) > -1){
+          item.place.address.quartier.toLowerCase().indexOf(val.toLowerCase()) > -1 ||
+          item.artists[i].name.toLowerCase().indexOf(val.toLowerCase()) > -1){
+            i=+1;
           return true
         }
+        i=+1;
         return false
       });
 

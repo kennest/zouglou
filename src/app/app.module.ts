@@ -1,6 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { ErrorHandler, NgModule } from '@angular/core';
+import {LOCALE_ID, ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+
+
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -47,7 +49,7 @@ import { StreamingMedia } from '@ionic-native/streaming-media';
     SplashScreen,
     Geolocation,
     StreamingMedia,
-    { provide: ErrorHandler, useClass: IonicErrorHandler },
+    { provide: ErrorHandler, useClass: IonicErrorHandler },{provide: LOCALE_ID, useValue: 'fr' },
     DataProvider,
   ]
 })

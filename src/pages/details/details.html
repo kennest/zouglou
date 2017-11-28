@@ -10,42 +10,46 @@
 <ion-content>
 
   <ion-card>
-    <img src="{{resUrl+event.picture}}" />
+    <ion-item>
+      <ion-avatar item-start>
+        <img src="{{resUrl+event.picture}}" />
+      </ion-avatar>
+      <h2>{{event.title}}</h2>
+      <p>à {{event.place.title}}</p>
+      <p>Du {{event.begin| date:'longDate':'':'fr'}} Au {{event.end| date:'longDate':'':'fr'}}</p>
+    </ion-item>
+
+    <img src="{{resUrl+event.place.picture}}" />
     <ion-card-content>
-      <ion-card-title>
-        {{event.title}}
-      </ion-card-title>
       <ion-list>
+        <p>
+          <strong>
+            Artiste invités:
+          </strong>
+        </p>
         <ion-item *ngFor='let a of event.artists'>
           <ion-avatar item-start>
             <img src="{{resUrl+a.avatar}}">
           </ion-avatar>
           <h2>{{a.name}}</h2>
           <button ion-button (click)="streamAudio(resUrl+a.sample)">
-              <ion-icon name="md-play"></ion-icon>
+            <ion-icon name="md-play"></ion-icon>
           </button>
           <button ion-button (click)="stopStream()">
-              <ion-icon name="md-pause"></ion-icon>
+            <ion-icon name="md-pause"></ion-icon>
           </button>
         </ion-item>
       </ion-list>
       <p id="description">{{event.description}}</p>
-      <ion-row>
-        <ion-col>
-          <button ion-button icon-left clear small>
-            <ion-icon name="clock"></ion-icon>
-            <div>{{event.begin| date:'dd-MM-yyyy'}}</div>
-          </button>
-        </ion-col>
-        <ion-col>
-          <button ion-button icon-left clear small>
-            <ion-icon name="timer"></ion-icon>
-            <div>{{event.end| date:'dd-MM-yyyy'}}</div>
-          </button>
-        </ion-col>
-      </ion-row>
     </ion-card-content>
-
+    <ion-row>
+      <ion-col text-center>
+        <button ion-button icon-left clear small>
+          <ion-icon name="map"></ion-icon>
+          <div>Voir sur la carte...</div>
+        </button>
+      </ion-col>
+    </ion-row>
 
   </ion-card>
   <ion-list>

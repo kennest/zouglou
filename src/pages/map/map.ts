@@ -22,18 +22,22 @@ export class MapPage {
   map: any;
   public places: any;
   constructor(public platform: Platform, public navCtrl: NavController, private _geolocation: Geolocation, public data: DataProvider, public alert: AlertController) {
+    this.init();
+  }
+  ionViewDidLoad() {
+    this.loadMap();
+  }
+
+  init() {
     this.data.getPlaces()
       .then(data => {
         places = data;
       });
-      this.platform.ready().then(() => {
+    this.platform.ready().then(() => {
       this.locateMe();
     });
   }
-  ionViewDidLoad(){
-   this.loadMap();
-  }
-  
+
   loadMap() {
     let abidjan = { lat: 5.3306125, lng: -4.0206121 }
     this.map = new google.maps.Map(this.mapElement.nativeElement, {
@@ -47,11 +51,11 @@ export class MapPage {
 
   addPlaceMarkers() {
     for (let key in places) {
-     var coord={
-       lat:Number(places[key].address.lat),
-       lng:Number(places[key].address.long)
+      var coord = {
+        lat: Number(places[key].address.lat),
+        lng: Number(places[key].address.long)
       };
-     this.placeMarker(coord, places[key]);
+      this.placeMarker(coord, places[key]);
     }
   }
 
@@ -131,6 +135,10 @@ export class MapPage {
     }, (err) => {
       console.log(err);
     });
+  }
+
+  filterEvent(ev: any) {
+
   }
 
   //Affiche le trajet jusqu'a un point

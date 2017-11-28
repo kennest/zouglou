@@ -38,6 +38,7 @@ export class DetailsPage {
     let options: StreamingAudioOptions = {
       successCallback: () => { console.log('Video played') },
       errorCallback: (e) => { console.log('Error streaming') },
+      initFullscreen:false,
     };
     this.stream.playAudio(url, options);
   }

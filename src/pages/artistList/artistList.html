@@ -3,12 +3,12 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
+    <ion-searchbar (ionInput)="getItems($event)" placeholder="Nom de l'artiste..."></ion-searchbar>
   </ion-navbar>
 </ion-header>
 <ion-content>
     <ion-item-divider color="primary">
-        <strong>Liste des Artistes</strong>
+        <strong><h1>Liste des Artistes</h1></strong>
       </ion-item-divider>
   <ion-card *ngIf="artist">
       <ion-avatar item-start>
