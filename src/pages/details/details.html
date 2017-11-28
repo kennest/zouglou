@@ -69,7 +69,7 @@
     </ion-item-divider>
     <ion-item  *ngFor="let e of similar[0].events" >
         <ion-thumbnail item-start>
-          <img src="{{url+'/uploads/'+e.picture}}">
+          <img src="{{resUrl+e.picture}}">
         </ion-thumbnail>
         <ion-badge color="dark"><h3>{{e.title|uppercase}}</h3></ion-badge>
         <p><strong>Artistes invités:</strong></p>
