@@ -18,6 +18,7 @@ import { Geolocation } from '@ionic-native/geolocation';
 import { HttpModule } from '@angular/http';
 import { DataProvider } from '../providers/data/data';
 import { StreamingMedia } from '@ionic-native/streaming-media';
+import { AndroidPermissions } from '@ionic-native/android-permissions';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { StreamingMedia } from '@ionic-native/streaming-media';
     SplashScreen,
     Geolocation,
     StreamingMedia,
+    AndroidPermissions,
     { provide: ErrorHandler, useClass: IonicErrorHandler },{provide: LOCALE_ID, useValue: 'fr' },
     DataProvider,
   ]

@@ -25,6 +25,7 @@ export class MapPage {
     this.init();
   }
   ionViewDidLoad() {
+    this.init();
     this.loadMap();
   }
 

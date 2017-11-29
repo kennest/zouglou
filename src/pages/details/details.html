@@ -21,7 +21,8 @@
       </p>
       <p>Du 
         <strong>{{event.begin| date:'longDate':'':'fr'}} </strong>
-        Au 
+        </p>
+       <p>Au 
         <strong>{{event.end| date:'longDate':'':'fr'}}</strong>
       </p>
     </ion-item>
@@ -67,7 +68,7 @@
         </h2>
       </strong>
     </ion-item-divider>
-    <ion-item  *ngFor="let e of similar[0].events" >
+    <ion-item  *ngFor="let e of similarevents" >
         <ion-thumbnail item-start>
           <img src="{{resUrl+e.picture}}">
         </ion-thumbnail>

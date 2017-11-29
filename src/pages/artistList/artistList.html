@@ -27,8 +27,9 @@
     </ion-card-content>
   </ion-card>
   <ion-list>
-    <button ion-item *ngFor="let a of artists" (click)="show($event,a)">
+    <button ion-item *ngFor="let a of artists" (click)="presentArtist(a)">
       {{a.name}}
     </button>
   </ion-list>
+  <button ion-button navPop full>Retour</button>
 </ion-content>
