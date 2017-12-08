@@ -5,49 +5,51 @@ import { Geolocation } from '@ionic-native/geolocation';
 import { DataProvider } from './../../providers/data/data';
 
 declare const google;
-var markers = [];
-var resUrl = 'https://zouglou-rest.herokuapp.com/uploads/';
+var resUrl = 'http://www.sciantonela.com/zouglou/public/uploads/';
 var panel;
-var initialize;
 var calculate;
 var direction;
 var mypos;
 var places;
+var map;
+var x = 0;
 @Component({
   selector: 'page-map',
   templateUrl: 'map.html'
 })
 export class MapPage {
   @ViewChild('map') mapElement: ElementRef;
-  map: any;
+
   public places: any;
   constructor(public platform: Platform, public navCtrl: NavController, private _geolocation: Geolocation, public data: DataProvider, public alert: AlertController) {
-    this.init();
+
   }
   ionViewDidLoad() {
     this.init();
-    this.loadMap();
   }
 
   init() {
     this.data.getPlaces()
       .then(data => {
         places = data;
+        this.places = places;
+        console.log("places:", places);
+        this.loadMap();
+        this.platform.ready().then(() => {
+          this.locateMe();
+        });
       });
-    this.platform.ready().then(() => {
-      this.locateMe();
-    });
   }
 
   loadMap() {
     let abidjan = { lat: 5.3306125, lng: -4.0206121 }
-    this.map = new google.maps.Map(this.mapElement.nativeElement, {
-      zoom: 10,
+    map = new google.maps.Map(document.getElementById("map"), {
+      zoom: 12,
       center: abidjan,
       mapTypeId: 'roadmap'
     });
     this.addPlaceMarkers();
-    this.map.setCenter(abidjan);
+    map.setCenter(abidjan);
   }
 
   addPlaceMarkers() {
@@ -56,26 +58,26 @@ export class MapPage {
         lat: Number(places[key].address.lat),
         lng: Number(places[key].address.long)
       };
+      console.log("coord", coord);
       this.placeMarker(coord, places[key]);
+      x++;
     }
   }
 
   placeMarker(loc: any, places) {
     var marker = new google.maps.Marker({
-      map: this.map,
+      map: map,
       position: loc,
       title: places.title,
       animation: google.maps.Animation.BOUNCE
     });
 
     var infowindow = new google.maps.InfoWindow({
-      content: "<div><h4>" + places.events[0].title + " à *" + places.title + "*</h4><img src=" + resUrl + places.picture + " /><p>" + places.events[0].description + "</p>"
-        + "<button ion-button full color='primary'>Voir details</button>"
-        + "</div>"
-    });
+      content: this.genContent(places)
 
+    });
     marker.addListener('click', function () {
-      infowindow.open(this.map, marker);
+      infowindow.open(map, marker);
     });
 
     marker.addListener('click', function () {
@@ -84,7 +86,7 @@ export class MapPage {
 
 
     direction = new google.maps.DirectionsRenderer({
-      map: this.map,
+      map: map,
       panel: panel
     });
 
@@ -109,7 +111,17 @@ export class MapPage {
 
   //DATA
 
-
+  genContent(places: any) {
+    var content = `<div style='float:left'><img id='infohead' height='80' width='80' src=${resUrl + places.picture} ></div>
+ <div style='float:right; padding: 10px;'><b>${places.title}</b>
+ <p>Evénements</p>
+<div *ngFor='let e of places.events'>
+ <p>{e.title}</p>
+ </div>
+ </div>
+<br/>${places.address.commune}<br/></div>`;
+    return content;
+  }
 
   showDetails(event): void {
     console.log(event);
@@ -126,7 +138,7 @@ export class MapPage {
       mypos = latLng;
       var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
       var marker = new google.maps.Marker({
-        map: this.map,
+        map: map,
         position: latLng,
         title: 'Votre Position',
         animation: google.maps.Animation.BOUNCE,

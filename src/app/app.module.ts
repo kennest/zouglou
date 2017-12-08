@@ -19,6 +19,13 @@ import { HttpModule } from '@angular/http';
 import { DataProvider } from '../providers/data/data';
 import { StreamingMedia } from '@ionic-native/streaming-media';
 import { AndroidPermissions } from '@ionic-native/android-permissions';
+import { Network } from '@ionic-native/network';
+import { IonicAudioModule, WebAudioProvider, CordovaMediaProvider, defaultAudioProviderFactory } from 'ionic-audio';
+
+export function myCustomAudioProviderFactory() {
+  return (window.hasOwnProperty('cordova')) ? new CordovaMediaProvider() : new WebAudioProvider();
+}
+
 
 @NgModule({
   declarations: [
@@ -33,7 +40,10 @@ import { AndroidPermissions } from '@ionic-native/android-permissions';
   imports: [
     BrowserModule,
     HttpModule,
-    IonicModule.forRoot(MyApp),
+    IonicAudioModule.forRoot(defaultAudioProviderFactory),
+    IonicModule.forRoot(MyApp,{
+      mode: 'ios'
+      }),
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -51,6 +61,7 @@ import { AndroidPermissions } from '@ionic-native/android-permissions';
     Geolocation,
     StreamingMedia,
     AndroidPermissions,
+    Network,
     { provide: ErrorHandler, useClass: IonicErrorHandler },{provide: LOCALE_ID, useValue: 'fr' },
     DataProvider,
   ]

@@ -3,7 +3,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-searchbar (ionInput)="getItems($event)" placeholder="Nom de l'artiste..."></ion-searchbar>
+    <ion-searchbar (ionInput)="getItems($event)" autocomplete="on" placeholder="Nom de l'artiste..."></ion-searchbar>
   </ion-navbar>
 </ion-header>
 <ion-content>
@@ -19,11 +19,19 @@
         {{artist.name}}
       </ion-card-title>
       <p>
-          A participer aux évènements suivants:
+          Participé aux évènements suivants:
       </p>
-      <p *ngFor="let e of artist.events">
-        <ion-badge>{{e.title}}</ion-badge>
-      </p>
+      <ion-list>
+        <ion-item *ngFor="let e of artist.events">
+          <ion-thumbnail item-start>
+            <img src="{{resUrl+e.picture}}">
+          </ion-thumbnail>
+          <h2>{{e.title|uppercase}}</h2>
+          <p>à <strong>{{e.place.title}}</strong></p>
+          <p>{{e.place.address.commune}}</p>
+          <!--button ion-button item-end (click)="showDetails(e)">Voir</button-->
+        </ion-item>
+      </ion-list>
     </ion-card-content>
   </ion-card>
   <ion-list>
@@ -31,5 +39,5 @@
       {{a.name}}
     </button>
   </ion-list>
-  <button ion-button navPop full>Retour</button>
+  <button ion-button color="dark" full (click)="back()">Retour</button>
 </ion-content>

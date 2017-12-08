@@ -10,11 +10,11 @@ import { DataProvider } from '../../providers/data/data';
   templateUrl: 'home.html',
 })
 export class HomePage {
-  
+
   places: any;
   events: any;
   inactiveevents: any;
-  url: string = 'https://zouglou-rest.herokuapp.com/';
+  url: string = 'http://www.sciantonela.com/zouglou/public/';
 
   constructor(public navCtrl: NavController, public http: Http, public loader: LoadingController, public data: DataProvider) {
     this.init();
@@ -28,7 +28,6 @@ export class HomePage {
     this.data.getactiveEvents()
       .then(data => {
         this.events = data;
-        console.log("events", this.events);
       });
 
     this.data.getInactiveEvents()
@@ -63,7 +62,7 @@ export class HomePage {
           item.artists[i].name.toLowerCase().indexOf(val.toLowerCase()) > -1){
             i=+1;
           return true
-          
+
         }
         i=+1;
         return false

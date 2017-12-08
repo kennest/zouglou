@@ -7,35 +7,56 @@
   </ion-navbar>
 </ion-header>
 <ion-content>
-    <ion-item-divider color="primary">
-        <strong><h1>Liste des Evenements</h1></strong>
-      </ion-item-divider>
+  <ion-item-divider color="primary">
+    <strong>
+      <h1>Liste des Evenements</h1>
+    </strong>
+  </ion-item-divider>
   <ion-list>
-      <ion-item-divider color="primary">En cours...</ion-item-divider>
-      <ion-item *ngFor="let e of events" >
-          <ion-thumbnail item-start>
-            <img src="{{url+'/uploads/'+e.picture}}">
-          </ion-thumbnail>
-          <ion-badge color="dark"><h3>{{e.title|uppercase}}</h3></ion-badge>
-          <p><strong>Artistes invités:</strong></p>
-          <div *ngFor="let a of e.artists">
-            <p>{{a.name}}</p>
-          </div>
-          <p><strong>Lieu:</strong><ion-badge color="secondary">{{e.place.title|uppercase}}</ion-badge> à <strong>{{e.place.address.commune|uppercase}}</strong></p>
-          <button ion-button item-end (click)="showDetails(e)">Voir+</button>
-        </ion-item>
-        <ion-item-divider color="danger">Historique</ion-item-divider>
-        <ion-item *ngFor="let e of inactiveevents" >
-            <ion-thumbnail item-start>
-              <img src="{{url+'/uploads/'+e.picture}}">
-            </ion-thumbnail>
-            <ion-badge color="dark"><h3>{{e.title|uppercase}}</h3></ion-badge>
-            <p><strong>Artistes invités:</strong></p>
-            <div *ngFor="let a of e.artists">
-              <p>{{a.name}}</p>
-            </div>
-            <p><strong>Lieu:</strong><ion-badge color="secondary">{{e.place.title|uppercase}}</ion-badge>  à <strong>{{e.place.address.commune|uppercase}}</strong></p>
-            <button ion-button item-end (click)="showDetails(e)">Voir+</button>
-          </ion-item>
+    <div *ngIf="events">
+      <ion-item-divider color="primary">{{events.length}} événement(s) actuellement en cours...</ion-item-divider>
+
+      <ion-item *ngFor="let e of events">
+        <ion-thumbnail item-start>
+          <img src="{{url+'/uploads/'+e.picture}}">
+        </ion-thumbnail>
+        <ion-badge color="dark">
+          <h3>{{e.title|uppercase}}</h3>
+        </ion-badge>
+        <p>
+          <strong>Artistes invités:</strong>
+        </p>
+        <div *ngFor="let a of e.artists">
+          <p>{{a.name}}</p>
+        </div>
+        <p>
+          <strong>Lieu:</strong>
+          <ion-badge color="secondary">{{e.place.title|uppercase}}</ion-badge> à
+          <strong>{{e.place.address.commune|uppercase}}</strong>
+        </p>
+        <button ion-button item-end (click)="showDetails(e)">Voir+</button>
+      </ion-item>
+      <ion-item-divider color="danger">Historique</ion-item-divider>
+      <ion-item *ngFor="let e of inactiveevents">
+        <ion-thumbnail item-start>
+          <img src="{{url+'/uploads/'+e.picture}}">
+        </ion-thumbnail>
+        <ion-badge color="dark">
+          <h3>{{e.title|uppercase}}</h3>
+        </ion-badge>
+        <p>
+          <strong>Artistes invités:</strong>
+        </p>
+        <div *ngFor="let a of e.artists">
+          <p>{{a.name}}</p>
+        </div>
+        <p>
+          <strong>Lieu:</strong>
+          <ion-badge color="secondary">{{e.place.title|uppercase}}</ion-badge> à
+          <strong>{{e.place.address.commune|uppercase}}</strong>
+        </p>
+        <button ion-button item-end (click)="showDetails(e)">Voir+</button>
+      </ion-item>
+    </div>
   </ion-list>
 </ion-content>

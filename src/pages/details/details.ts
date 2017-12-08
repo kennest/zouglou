@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component,ChangeDetectorRef } from '@angular/core';
 import { NavController, NavParams, LoadingController } from 'ionic-angular';
 import { Http } from "@angular/http";
 import { DataProvider } from '../../providers/data/data';
 import { StreamingMedia, StreamingAudioOptions } from '@ionic-native/streaming-media';
+import { AudioProvider,ITrackConstraint } from 'ionic-audio';
 
-
+var globTracks=[];
 @Component({
   selector: 'page-details',
   templateUrl: 'details.html',
@@ -15,31 +16,47 @@ export class DetailsPage {
   id: number;
   public similar: any;
   public similarevents=[];
-  resUrl: string = 'https://zouglou-rest.herokuapp.com/uploads/';
-  constructor(public navCtrl: NavController, private data: DataProvider, private navparams: NavParams, private load: LoadingController, private stream: StreamingMedia) {
+
+  finaltracks:any[];
+  allTracks: any[];
+  currentIndex: number = -1;
+  currentTrack: ITrackConstraint;
+  resUrl: string = 'http://www.sciantonela.com/zouglou/public/uploads/';
+  constructor(private _cdRef: ChangeDetectorRef,private _audioProvider: AudioProvider,public navCtrl: NavController, private data: DataProvider, private navparams: NavParams, private load: LoadingController, private stream: StreamingMedia) {
     this.init();
+    this.event.artists.forEach(a => {
+      let track = {
+        src: this.resUrl+a.urlsample,
+        artist: a.name,
+        title: 'Extrait',
+        art: this.resUrl+a.avatar,
+        preload: 'none' // tell the plugin to preload metadata such as duration for this track, set to 'none' to turn off
+      };
+      globTracks.push(track);
+    });
+    this.finaltracks=globTracks;
   }
 
   init() {
     this.similarevents=[];
+    this.finaltracks=[];
+    this.allTracks=[];
+    globTracks=[];
     this.event = this.navparams.get('event');
     this.data.getSimilarEvents(this.event.place.address.commune)
       .then(data => {
         this.similar = data;
-        console.log("similar:", this.similar);
       for(var i=0;i<(this.similar.length);i++){
         this.similar[i].events.forEach(e => {
        this.similarevents.push(e);
-       console.log("push"+i, e.title);
         });
       }
-      console.log("similar-2:", this.similarevents);
       });
   }
 
   ionViewDidLoad() {
     this.event = this.navparams.get('event');
-    console.log('Details log:', this.event);
+    this.allTracks = this._audioProvider.tracks; 
   }
   showDetails(event) {
     console.log(event);
@@ -49,16 +66,30 @@ export class DetailsPage {
       console.log(e);
     }
   }
-  streamAudio(url: string) {
-    let options: StreamingAudioOptions = {
-      successCallback: () => { console.log('Video played') },
-      errorCallback: (e) => { console.log('Error streaming') },
-      initFullscreen: false,
-    };
-    this.stream.playAudio(url, options);
-  }
 
-  stopStream() {
-    this.stream.stopAudio()
+  play(track: ITrackConstraint, index: number) {
+    this.currentTrack = track;
+    this.currentIndex = index;
+}
+  
+next() {
+  // if there is a next track on the list play it
+  if (this.allTracks.length > 0 && this.currentIndex >= 0 && this.currentIndex < this.allTracks.length - 1) {
+    let i = this.currentIndex + 1;
+    let track = this.allTracks[i];
+    this.play(track, i);
+    this._cdRef.detectChanges();  // needed to ensure UI update
+  } else if (this.currentIndex == -1 && this.allTracks.length > 0) {
+    // if no track is playing then start with the first track on the list
+    this.play(this.allTracks[0], 0);
   }
+}
+
+onTrackFinished(track: any) {
+  this.next();
+}
+
+clear() {
+  this.allTracks = [];
+}
 }

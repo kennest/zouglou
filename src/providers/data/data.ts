@@ -14,7 +14,7 @@ import 'rxjs/add/operator/catch';
 */
 @Injectable()
 export class DataProvider {
-  public url: string = 'https://zouglou-rest.herokuapp.com/';
+  public url: string = 'http://www.sciantonela.com/zouglou/public/';
   public places: any;
   public events: any;
   public inactiveevents: any;
