@@ -74,7 +74,7 @@
         </h2>
       </strong>
     </ion-item-divider>
-    <ion-item  *ngFor="let e of similarevents" >
+    <button ion-item  *ngFor="let e of similarevents" (click)="showDetails(e)">
         <ion-thumbnail item-start>
           <img src="{{resUrl+e.picture}}">
         </ion-thumbnail>
@@ -84,8 +84,8 @@
           <p>{{a.name}}</p>
         </div>
         <p><strong>Lieu:</strong><ion-badge color="secondary">{{e.place.title|uppercase}}</ion-badge> à <strong>{{e.place.address.commune|uppercase}}</strong></p>
-        <button ion-button item-end (click)="showDetails(e)">Voir+</button>
-      </ion-item>
+        <!--button ion-button item-end >Voir+</button-->
+      </button>
   </ion-list>
   <button ion-button navPop full>Retour</button>
 </ion-content>
