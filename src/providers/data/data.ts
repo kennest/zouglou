@@ -45,6 +45,24 @@ export class DataProvider {
     });
   }
 
+  getOnePlace(id:number) {
+    let loader = this.loader.create({
+      content: 'Chargement des Informations...',
+      duration: 8000,
+      spinner:"dots"
+    });
+    loader.present();
+    return new Promise(resolve => {
+      this.http.get(this.url + 'api/place/'+id)
+        .map(res => res.json())
+        .subscribe(data => {
+          this.places = data;
+          resolve(this.places);
+          loader.dismiss();
+        });
+    });
+  }
+
   getactiveEvents() {
     let loader = this.loader.create({
       content: 'Chargement des Informations...',

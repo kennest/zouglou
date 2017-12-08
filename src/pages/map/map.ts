@@ -3,6 +3,7 @@ import { Component, ViewChild, ElementRef } from '@angular/core';
 import { AlertController, NavController, Platform } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
 import { DataProvider } from './../../providers/data/data';
+import { NavParams } from 'ionic-angular/navigation/nav-params';
 
 declare const google;
 var resUrl = 'http://www.sciantonela.com/zouglou/public/uploads/';
@@ -21,14 +22,30 @@ export class MapPage {
   @ViewChild('map') mapElement: ElementRef;
 
   public places: any;
-  constructor(public platform: Platform, public navCtrl: NavController, private _geolocation: Geolocation, public data: DataProvider, public alert: AlertController) {
-
+  public oneplace: any;
+  constructor(
+    public platform: Platform,
+    public navCtrl: NavController,
+    private _geolocation: Geolocation,
+    public data: DataProvider,
+    public alert: AlertController,
+    public navparams: NavParams
+  ) {
+    this.oneplace = this.navparams.get('place');
   }
   ionViewDidLoad() {
     this.init();
   }
 
   init() {
+    if(this.oneplace){
+      places = this.oneplace;
+      this.places = places;
+      this.loadOne();
+      this.platform.ready().then(() => {
+        this.locateMe();
+      });
+    }else{
     this.data.getPlaces()
       .then(data => {
         places = data;
@@ -40,6 +57,7 @@ export class MapPage {
         });
       });
   }
+}
 
   loadMap() {
     let abidjan = { lat: 5.3306125, lng: -4.0206121 }
@@ -52,6 +70,25 @@ export class MapPage {
     map.setCenter(abidjan);
   }
 
+  loadOne(){
+    let abidjan = { lat: 5.3306125, lng: -4.0206121 }
+    map = new google.maps.Map(document.getElementById("map"), {
+      zoom: 12,
+      center: abidjan,
+      mapTypeId: 'roadmap'
+    });
+    this.addOneplaceMarker();
+    map.setCenter(abidjan);
+  }
+
+  addOneplaceMarker(){
+    var coord = {
+      lat: Number(places.address.lat),
+      lng: Number(places.address.long)
+    };
+    console.log("coord", coord);
+    this.placeMarker(coord, places);
+  }
   addPlaceMarkers() {
     for (let key in places) {
       var coord = {
@@ -114,10 +151,8 @@ export class MapPage {
   genContent(places: any) {
     var content = `<div style='float:left'><img id='infohead' height='80' width='80' src=${resUrl + places.picture} ></div>
  <div style='float:right; padding: 10px;'><b>${places.title}</b>
- <p>Evénements</p>
-<div *ngFor='let e of places.events'>
- <p>{e.title}</p>
- </div>
+ <p>Evénement</p>
+<p>${places.events[0].title}</p>
  </div>
 <br/>${places.address.commune}<br/></div>`;
     return content;
@@ -151,7 +186,28 @@ export class MapPage {
   }
 
   filterEvent(ev: any) {
+    let val = ev.target.value;
 
+    // if the value is an empty string don't filter the items
+    if (val && val.trim() != '') {
+      //Filtre 
+      places = this.places.filter((item) => {
+        var i = 0;
+        if (item.title.toLowerCase().indexOf(val.toLowerCase()) > -1 ||
+          item.address.commune.toLowerCase().indexOf(val.toLowerCase()) > -1 ||
+          item.events[i].artists[i].name.toLowerCase().indexOf(val.toLowerCase()) > -1) {
+          i = +1;
+          console.log(item);
+          this.loadMap();
+          this.locateMe();
+          return true;
+        }
+        i = +1;
+        return false;
+      });
+    } else {
+      this.init();
+    }
   }
 
   //Affiche le trajet jusqu'a un point
